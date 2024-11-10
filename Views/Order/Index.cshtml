@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Cloud2bPOE.Models.Order>
+
+<h2 class="text-center" style="color: darkgreen;">Orders</h2>
+
+<table class="table table-hover table-bordered" style="border-color: darkgreen;">
+    <thead style="background-color: darkgreen; color: beige;">
+        <tr>
+            <th>Order ID</th>
+            <th>Customer ID</th>
+            <th>Order Date</th>
+            <th>Total Amount</th>
+            <th>Order Items</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr style="background-color: beige;">
+                <td>@order.OrderID</td>
+                <td>@order.CustomerID</td>
+                <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
+                <td>@order.TotalAmount.ToString("C")</td>
+                <td>
+                    <ul class="list-unstyled">
+                        @foreach (var item in order.OrderItems)
+                        {
+                            <li>@item.Product.Name - Quantity: @item.Quantity, Unit Price: @item.UnitPrice.ToString("C")</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    /* Center the content and add some padding */
+    h2 {
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    /* Custom table styles */
+    .table-hover tbody tr:hover {
+        background-color: #e6f2e6; /* Light green for hover effect */
+    }
+
+    /* Customize list inside Order Items */
+    .list-unstyled li {
+        padding: 3px 0;
+        color: darkgreen;
+    }
+</style>

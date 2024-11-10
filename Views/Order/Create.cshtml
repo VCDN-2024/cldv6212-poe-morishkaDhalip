@@ -1,0 +1,74 @@
+﻿@model Cloud2bPOE.Models.Order 
+@{
+    ViewBag.Title = "Create Order";
+}
+
+<h2>Create Order</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="CustomerID" class="control-label">Customer</label>
+        <input asp-for="CustomerID" class="form-control" placeholder="Enter Customer ID" />
+    </div>
+    
+    <h4>Order Items</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="orderItems">
+            <tr>
+                <td>
+                    <select class="form-control" name="orderItems[0].ProductID">
+                        @foreach (var product in ViewBag.Products)
+                        {
+                            <option value="@product.ProductID">@product.Name</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="orderItems[0].Quantity" value="1" min="1" />
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="orderItems[0].UnitPrice" value="0" step="0.01" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-secondary" onclick="addOrderItem()">Add Another Product</button>
+    <button type="submit" class="btn btn-primary">Create Order</button>
+</form>
+
+@section Scripts {
+    <script>
+        let orderItemCount = 1;
+
+        function addOrderItem() {
+            let orderItems = document.getElementById("orderItems");
+            let row = document.createElement("tr");
+            row.innerHTML = `
+                <td>
+                    <select class="form-control" name="orderItems[${orderItemCount}].ProductID">
+                        @foreach (var product in ViewBag.Products)
+                        {
+                            <option value="@product.ProductID">@product.Name</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="orderItems[${orderItemCount}].Quantity" value="1" min="1" />
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="orderItems[${orderItemCount}].UnitPrice" value="0" step="0.01" />
+                </td>
+            `;
+            orderItems.appendChild(row);
+            orderItemCount++;
+        }
+    </script>
+}
